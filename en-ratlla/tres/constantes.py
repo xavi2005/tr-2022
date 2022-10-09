@@ -23,9 +23,9 @@ ROW_P = HEIGHT / ROW
 COL = 3
 COL_P = WIDTH / COL
 
-#BOARD
+#MATRIU
 
-BOARD = [[0 for x in range(COL)] for y in range(ROW)] #crea una matriu rpws*cols on s'inicialitzan totes els elements en 0
+BOARD = [[0 for x in range(COL)] for y in range(ROW)] #crea una matriu M on Mij = 0
 
 
 
