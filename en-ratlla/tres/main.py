@@ -226,6 +226,7 @@ class IA:
     
     #l'algorisme de minimax. Rep com a entrades , la Matriu i si es maximitza o minimitza. En aquest cas com l'algorisme vol que guanyi -1, es minimitza.
     #no hi ha una profunditat K màxima d'exploració
+    #D'alguna manera intenta trobar aquella jugada que més li orienti a jugades guanyadores.
 
 
     def minimax( self ,game , maximizing = False ):
@@ -243,8 +244,8 @@ class IA:
         #cas contrari , quan no hi ha estat final.
         
         #si es troba maximitzant, es crearant k(número de Mij = 0) matrius NM on en cada una d'aquetes, copies de M , es subtuirà NVi[M2[i][0]][M2[i][1]] = 1.
-        #La iéssima fila de M2 s'anirà colocant a la i-èssima matriu NV.
-        #M = NMi , quan NMi sigui l'estat per la millor jugada, es a dir la matriu que li doni la màxima puntuació.
+        #La iéssima fila de M2 s'anirà colocant a la i-èssima matriu NM.
+        
         
         """ Per exemple si tenim la matriu M :
         M = [
@@ -252,14 +253,14 @@ class IA:
         [0,0,1],
         [-1,1,-1]]
         
-        M2 serà una altre matriu k*2, on k = 4.
+        M2 serà una altre matriu k*2, on k = 4(Les ij on Mij = 0).
         M2 = [
         [0,0],
         [0,1],
         [1,0],
         [1,1]]
         
-        Per tant es crearant k NV, on k = 4:
+        Per tant es crearant k matrius NM, on k = 4:
         
         NM1 = [
         [1,0,1],
@@ -283,6 +284,7 @@ class IA:
         
         
         """
+        #Cada una d'aquestes matrius passarà per la funció minimax recursivament i l'altre paràmetre maximazing serà False, ja que les altres k*(k-1) matrius se li atribuirà el valor de -1. 
         
        
         
@@ -301,6 +303,9 @@ class IA:
                     best_move = (row, col)
             return maximize , best_move
         
+        
+        #Si l'algorisme es troba minimitzant es farà el mateix procés però es col·locarà a les k matrius NVi[M2[i][0]][M2[i][1]] = -1
+        #Després per cada NVi serà l'entrada recursivament de minimax juntament amb maximitzant = True.
           elif not maximizing:
             minimize = 10
             best_move = None
@@ -339,14 +344,18 @@ def main():
             # si el joc està corrent
             if game.run == True:
              if event.type == pygame.MOUSEBUTTONDOWN:
+                
+                #detecta la casella on s'ha produït un click amb el ratolí
                 pos = event.pos
                 row = int(pos[1] // ROW_P)
                 col = int(pos[0] // ROW_P)
                 
+              #en el cas de que el torn sigui humà marcarà el moviment. Introduïnt-lo a la matriu, dibuixant-lo etc..
                 
                 if game.actual_player == human_player and  board.is_empty(row, col ) == True:
                     game.mark_move(row, col)
-                    
+             
+            #si el totn és de la màquina buscarà la millor solució i ho marcarà
                     
              if game.actual_player == -1:
                pygame.display.update()
@@ -363,6 +372,8 @@ def main():
 
         pygame.display.update()
 
+
+#executa el main() 
 
 if __name__ == "__main__":
     main()
