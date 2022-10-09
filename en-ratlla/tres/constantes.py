@@ -1,4 +1,4 @@
-#Variables de entorno
+#Variables d'entorn
 
 #BACKGROUND
 
